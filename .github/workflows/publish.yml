@@ -28,8 +28,8 @@ jobs:
         with:
             # list of Docker images to use as base name for tags
           images: |
-            name/app
-            ghcr.io/username/app
+            crdant/outsystems-pipeline-image
+            ghcr.io/crdant/outsystems-pipeline-image
           # generate Docker tags based on the following events/attributes
           tags: |
             type=edge,branch=main
