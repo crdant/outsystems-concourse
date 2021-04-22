@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: registry-image
   source:
-    repository: ghcr.io/crdant/outsystems-pipeline-resource
+    repository: ghcr.io/crdant/outsystems-pipeline-image
 
 inputs:
 - name: artifacts
@@ -15,7 +15,7 @@ outputs:
 params:
   LIFETIME_URL:
   LIFETIME_TOKEN:
-  API_VERSION: 
+  API_VERSION: 2
   SOURCE:
   DESTINATION:
   APPLICATIONS:
@@ -24,7 +24,8 @@ params:
 run:
   path: bash
   args:
-  - -c | 
+  - -c 
+  - | 
     
     python3 -m outsystems.pipeline.deploy_latest_tags_to_target_env --artifacts artifacts \
       --lt_url "${LIFETIME_URL}" --lt_token "${LIFETIME_TOKEN}" --lt_api_version "${API_VERSION}" \
