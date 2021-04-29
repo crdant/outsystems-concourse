@@ -46,7 +46,7 @@ run:
   - -c 
   - | 
     if [[ -z "${MESSAGE}" ]] ; then
-      MESSAGE="Automated deploymend triggered by pipeline on ${HOSTNAME} on $(date)"
+      MESSAGE="Automated deploymend triggered by pipeline from concourse worker ${HOSTNAME} on $(date)"
     fi 
 
     python3 -m outsystems.pipeline.deploy_latest_tags_to_target_env --artifacts artifacts \
