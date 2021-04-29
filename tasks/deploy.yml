@@ -1,0 +1,55 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: ghcr.io/crdant/outsystems-pipeline-image
+
+inputs:
+- name: artifacts
+
+outputs:
+- name: artifacts
+
+params:
+  APPLICATIONS:
+  # - Required
+  # - A comma separated list of applications to deploy as part of the deployment
+  SOURCE:
+  # - Required
+  # - The source environment with the application already deployed, either from a 
+  #   previous deployment or directly from Service Studio
+  DESTINATION:
+  # - Required
+  # - The destination environment for the deployment
+  MESSAGE:
+  # - Optional
+  # - A message to log alongside the deployment, if it is not provided the task 
+  #   will provide a prepared message with information about the Concourse job
+  #   responsible for the deployment
+  LIFETIME_URL:
+  # - Required
+  # - URL for the Lifetime server that will execute the deployment
+  LIFETIME_TOKEN:
+  # - Required
+  # - API token for a service account on the lifetime server that has admininstrator
+  #   rights in order to drive the deployment
+  API_VERSION: 2
+  # - Optional
+  # - Specifies the API version to use when accessing LifeTime, the default is
+  #   version 2 for OutSystems 11
+
+run:
+  path: bash
+  args:
+  - -c 
+  - | 
+    if [[ -z "${MESSAGE}" ]] ; then
+      MESSAGE="Automated deploymend triggered by pipeline from concourse worker ${HOSTNAME} on $(date)"
+    fi 
+
+    python3 -m outsystems.pipeline.deploy_latest_tags_to_target_env --artifacts artifacts \
+      --lt_url "${LIFETIME_URL}" --lt_token "${LIFETIME_TOKEN}" --lt_api_version "${API_VERSION}" \
+      --source_env "${SOURCE}" --destination_env "${DESTINATION}" --app_list "${APPLICATIONS}" \
+      --deploy_msg "${MESSAGE}"
