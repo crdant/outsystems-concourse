@@ -49,7 +49,7 @@ run:
       MESSAGE="Automated deploymend triggered by pipeline on ${HOSTNAME} on $(date)"
     fi 
 
-    pythpon3 -m outsystems.pipeline.deploy_latest_tags_to_target_env --artifacts artifacts \
+    python3 -m outsystems.pipeline.deploy_latest_tags_to_target_env --artifacts artifacts \
       --lt_url "${LIFETIME_URL}" --lt_token "${LIFETIME_TOKEN}" --lt_api_version "${API_VERSION}" \
       --source_env "${SOURCE}" --destination_env "${DESTINATION}" --app_list "${APPLICATIONS}" \
       --deploy_msg "${MESSAGE}"
